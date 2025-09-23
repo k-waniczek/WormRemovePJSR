@@ -5,7 +5,7 @@
         Repository for WormRemoval script.
      </p>
    </description>
-   <platform os="all" arch="noarch" version="1.5.0:1.6.0">
+   <platform os="all" arch="noarch" version="1.9.0:1.9.10">
       <package fileName="wormremoval-2025-09-23.zip" sha1="26889367b54ff8b56236f5e62d10e5d0bd691c29" type="script" releaseDate="20250923">
          <title>
             WormRemoval script 2025-09-23

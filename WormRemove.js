@@ -2,7 +2,7 @@
  * PJSR Script: BlurX + StarX workflow (cross-platform)
  * - Auto-detects AI models for RC-Astro on macOS (Core ML) and Windows (TensorFlow .pb)
  * - Steps: BlurX -> StarX(mask) -> undo x2 -> StarX(starless)
- * Author: ARZ, Kamil Waniczek  |  Version: 1.5  |  Date: 2025-09-15
+ * Author: ARZ, Kamil Waniczek  |  Version: 1.6  |  Date: 2025-09-23
  */
 
 #feature-id WormRemove : Utilities > WormRemoval

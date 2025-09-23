@@ -53,7 +53,16 @@ let xtParameters = {
    adjustHalos: 0,
    overlap: 0.5,
    correct: true,
+   generateStarMask: true,
    view: undefined
+}
+
+var activeWindow = ImageWindow.activeWindow;
+if (activeWindow && activeWindow.isWindow) {
+   var activeView = activeWindow.currentView;
+   if ( activeView ) {
+      xtParameters.view = activeView;
+   }
 }
 
 // Prefer CoreML, then TF .pb (Windows).
@@ -137,32 +146,34 @@ function main() {
          if (!blurxCorrect.executeOn(view)) throw new Error("BlurXTerminator (correct only) step failed.");
       }
 
-      // BlurXTerminator (stars)
-      console.writeln("Starting BlurXterminator (stars)!");
-      var blurx = new BlurXTerminator;
-      blurx.ai_file = blurxModel;
-      blurx.correct_only = false;
-      blurx.correct_first = false;
-      blurx.nonstellar_then_stellar = false;
-      blurx.lum_only = false;
-      blurx.sharpen_stars = xtParameters.sharpenStars;
-      blurx.adjust_halos = xtParameters.adjustHalos;
-      blurx.nonstellar_psf_diameter = 0.00;
-      blurx.auto_nonstellar_psf = true;
-      blurx.sharpen_nonstellar = 0.00;
-      if (!blurx.executeOn(view)) throw new Error("BlurXTerminator (stars) step failed.");
+      if (xtParameters.generateStarMask) {
+         // BlurXTerminator (stars)
+         console.writeln("Starting BlurXterminator (stars)!");
+         var blurx = new BlurXTerminator;
+         blurx.ai_file = blurxModel;
+         blurx.correct_only = false;
+         blurx.correct_first = false;
+         blurx.nonstellar_then_stellar = false;
+         blurx.lum_only = false;
+         blurx.sharpen_stars = xtParameters.sharpenStars;
+         blurx.adjust_halos = xtParameters.adjustHalos;
+         blurx.nonstellar_psf_diameter = 0.00;
+         blurx.auto_nonstellar_psf = true;
+         blurx.sharpen_nonstellar = 0.00;
+         if (!blurx.executeOn(view)) throw new Error("BlurXTerminator (stars) step failed.");
 
-      // StarXTerminator (mask)
-      console.writeln("Starting StarXterminator (mask)!");
-      var starxMask = new StarXTerminator;
-      starxMask.ai_file = starxModel;
-      starxMask.stars = true;     // generate mask / stars pass
-      starxMask.unscreen = false;
-      starxMask.overlap = xtParameters.overlap;
-      if (!starxMask.executeOn(view)) throw new Error("StarX (mask) step failed.");
+         // StarXTerminator (mask)
+         console.writeln("Starting StarXterminator (mask)!");
+         var starxMask = new StarXTerminator;
+         starxMask.ai_file = starxModel;
+         starxMask.stars = true;     // generate mask / stars pass
+         starxMask.unscreen = false;
+         starxMask.overlap = xtParameters.overlap;
+         if (!starxMask.executeOn(view)) throw new Error("StarX (mask) step failed.");
 
-      // Undo two steps
-      win.undo(); win.undo();
+         // Undo two steps
+         win.undo(); win.undo();
+      }
 
       // StarXTerminator (starless)
       console.writeln("Starting StarXterminator (starless)!");

@@ -12,11 +12,7 @@
 #include <pjsr/Sizer.jsh>
 #include <pjsr/NumericControl.jsh>
 
-#define TITLE "Foraxx Palette Utility"
-#define VERSION "1.15"
-#define BUILD "202412230651"
-
-#include "lib/DialogWormRemove.js"
+#include "DialogWormRemove.js"
 // ---------- Utilities ----------
 
 /** Return current user's home directory (PJSR API). */

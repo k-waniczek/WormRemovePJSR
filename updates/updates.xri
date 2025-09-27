@@ -6,14 +6,16 @@
      </p>
    </description>
    <platform os="all" arch="noarch" version="1.9.0:1.9.10">
-      <package fileName="wormremoval-2025-09-24.zip" sha1="7d484e168237dba7e4e1362052c5348cbeccd0ed" type="script" releaseDate="20250923">
+      <package fileName="wormremoval-2025-09-27.zip" sha1="7012692106d695e645429fa97ecb04ec08a4fd409" type="script" releaseDate="20250927">
          <title>
-            WormRemoval script 2025-09-24
+            WormRemoval script 2025-09-27
          </title>
          <description>
-            <h3>WormRemoval: Release 1.6.1</h3>
+            <h3>WormRemoval: Release 1.7</h3>
             <ul>
-               <li>Fix directory issue</li>
+               <li>New instance button added</li>
+               <li>Script ran from saved new instance now remembers all parameters</li>
+               <li>Blocked script from running in a global context</li>
             </ul>
          </description>
       </package>

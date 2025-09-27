@@ -5,8 +5,8 @@ function WormRemoveDialog() {
     //Set Dialog Width and Height
     this.width = 450;
     this.minWidth = 450;
-    this.height = 420;
-    this.minHeight = 420;
+    this.height = 450;
+    this.minHeight = 450;
 
     //The Main instructional textbox
     this.title = new TextBox(this);
@@ -78,10 +78,10 @@ function WormRemoveDialog() {
     this.viewToEdit = new ViewList(this);
     this.viewToEdit.getMainViews();
     this.viewToEdit.onViewSelected = function(view) {
-        xtParameters.view = view;
+        xtParameters.view = view.id;
     }
     if (xtParameters.view) {
-        this.viewToEdit.currentView = xtParameters.view;
+        this.viewToEdit.currentView = View.viewById(xtParameters.view);
     }
 
     //Execute Button
@@ -92,6 +92,23 @@ function WormRemoveDialog() {
     this.execButton.onClick = () => {
         this.ok();
     }
+
+    this.newInstanceButton = new ToolButton(this);
+    this.newInstanceButton.icon = this.scaledResource( ":/process-interface/new-instance.png" );
+    this.newInstanceButton.setScaledFixedSize(24, 24);
+    this.newInstanceButton.toolTip = "New Instance.";
+    this.newInstanceButton.onMousePress = () => {
+        saveParameters();
+        this.newInstance();
+    }
+
+    this.buttonSizer = new HorizontalSizer;
+    this.buttonSizer.margin = 4;
+    this.buttonSizer.spacing = 4;
+    this.buttonSizer.addSpacing(8);
+    this.buttonSizer.spacing = 4;
+    this.buttonSizer.add(this.newInstanceButton);
+    this.buttonSizer.addStretch();
 
     this.viewGroupSizer = new VerticalSizer;
     this.viewGroupSizer.margin = 10;
@@ -134,6 +151,8 @@ function WormRemoveDialog() {
     this.sizer.add(this.xtGroup);
     this.sizer.addSpacing(8);
     this.sizer.add(this.bottomSizer);
+    this.sizer.addSpacing(2);
+    this.sizer.add(this.buttonSizer);
     this.sizer.addStretch();
 }
 

@@ -6,11 +6,12 @@
  */
 
 #feature-id WormRemove : Utilities > WormRemoval
-
 #feature-info This script uses bxt and sxt in correct order to minimize the worms caused by nxt
 
 #include <pjsr/Sizer.jsh>
 #include <pjsr/NumericControl.jsh>
+
+#define KEYPREFIX "WormRemoval"
 
 #include "DialogWormRemove.js"
 // ---------- Utilities ----------
@@ -50,15 +51,7 @@ let xtParameters = {
    overlap: 0.5,
    correct: true,
    generateStarMask: true,
-   view: undefined
-}
-
-var activeWindow = ImageWindow.activeWindow;
-if (activeWindow && activeWindow.isWindow) {
-   var activeView = activeWindow.currentView;
-   if ( activeView ) {
-      xtParameters.view = activeView;
-   }
+   view: 0
 }
 
 // Prefer CoreML, then TF .pb (Windows).
@@ -102,6 +95,34 @@ function resolveModel(baseNames) {
    return found;
 }
 
+function saveParameters() {
+    Parameters.clear();
+    Parameters.set("sharpenStars", xtParameters.sharpenStars);
+    Parameters.set("sharpenNonstellar", xtParameters.sharpenNonstellar);
+    Parameters.set("adjustHalos", xtParameters.adjustHalos);
+    Parameters.set("overlap", xtParameters.overlap);
+    Parameters.set("correct", xtParameters.correct);
+    Parameters.set("generateStarMask", xtParameters.generateStarMask);
+    Parameters.set("view", xtParameters.view);
+}
+
+function loadParameters() {
+    if (Parameters.has("sharpenStars"))
+        xtParameters.sharpenStars = Parameters.getReal("sharpenStars");
+    if (Parameters.has("sharpenNonstellar"))
+        xtParameters.sharpenNonstellar = Parameters.getReal("sharpenNonstellar");
+    if (Parameters.has("adjustHalos"))
+        xtParameters.adjustHalos = Parameters.getReal("adjustHalos");
+    if (Parameters.has("overlap"))
+        xtParameters.overlap = Parameters.getReal("overlap");
+    if (Parameters.has("correct"))
+        xtParameters.correct = Parameters.getBoolean("correct");
+    if (Parameters.has("generateStarMask"))
+        xtParameters.generateStarMask = Parameters.getBoolean("generateStarMask");
+    if (Parameters.has("view"))
+        xtParameters.view = View.viewById(Parameters.getString("view"));
+}
+
 // ---------- Main pipeline ----------
 
 /**
@@ -114,10 +135,21 @@ function resolveModel(baseNames) {
  */
 function main() {
    jsAutoGC = true;
+   if (Parameters.isGlobalTarget) {
+      throw new Error("Worm removal could not run in the global context. Please run it in direct context(square icon).");
+   }
+   loadParameters();
+   let activeWindow = ImageWindow.activeWindow;
+   if (activeWindow && activeWindow.isWindow) {
+      let activeView = activeWindow.currentView;
+      if (activeView) {
+         xtParameters.view = activeView.id;
+      }
+   }
    let dialog = new WormRemoveDialog;
    let dialogReturn = dialog.execute();
    if (dialogReturn) {
-      var view = xtParameters.view;
+      var view = View.viewById(xtParameters.view);
       var win = view.window;
       if (win.isNull) throw new Error("No active image! Open an image first.");
 
@@ -127,7 +159,8 @@ function main() {
 
       // BlurXTerminator (correct only)
       if (xtParameters.correct) {
-         console.writeln("Starting BlurXterminator (correct only)!");
+         console.writeln("Starting BlurXTerminator (correct only)!");
+         
          var blurxCorrect = new BlurXTerminator;
          blurxCorrect.ai_file = blurxModel;
          blurxCorrect.correct_only = xtParameters.correct;
@@ -139,12 +172,14 @@ function main() {
          blurxCorrect.nonstellar_psf_diameter = 0.00;
          blurxCorrect.auto_nonstellar_psf = true;
          blurxCorrect.sharpen_nonstellar = 0.00;
+         
          if (!blurxCorrect.executeOn(view)) throw new Error("BlurXTerminator (correct only) step failed.");
       }
-
+      
       if (xtParameters.generateStarMask) {
          // BlurXTerminator (stars)
-         console.writeln("Starting BlurXterminator (stars)!");
+         console.writeln("Starting BlurXTerminator (stars)!");
+         
          var blurx = new BlurXTerminator;
          blurx.ai_file = blurxModel;
          blurx.correct_only = false;
@@ -156,33 +191,37 @@ function main() {
          blurx.nonstellar_psf_diameter = 0.00;
          blurx.auto_nonstellar_psf = true;
          blurx.sharpen_nonstellar = 0.00;
+         
          if (!blurx.executeOn(view)) throw new Error("BlurXTerminator (stars) step failed.");
 
          // StarXTerminator (mask)
-         console.writeln("Starting StarXterminator (mask)!");
+         console.writeln("Starting StarXTerminator (mask)!");
+         
          var starxMask = new StarXTerminator;
          starxMask.ai_file = starxModel;
          starxMask.stars = true;     // generate mask / stars pass
          starxMask.unscreen = false;
          starxMask.overlap = xtParameters.overlap;
-         if (!starxMask.executeOn(view)) throw new Error("StarX (mask) step failed.");
+         
+         if (!starxMask.executeOn(view)) throw new Error("StarXTerminator (mask) step failed.");
 
          // Undo two steps
          win.undo(); win.undo();
       }
 
       // StarXTerminator (starless)
-      console.writeln("Starting StarXterminator (starless)!");
+      console.writeln("Starting StarXTerminator (starless)!");
       var starxNoMask = new StarXTerminator;
       starxNoMask.ai_file = starxModel;
       starxNoMask.stars = false;  // starless
       starxNoMask.unscreen = false;
       starxNoMask.overlap = xtParameters.overlap;
-      if (!starxNoMask.executeOn(view)) throw new Error("StarX (starless) step failed.");
+      if (!starxNoMask.executeOn(view)) throw new Error("StarXTerminator (starless) step failed.");
 
       // BlurXTerminator (nonstellar)
       if (xtParameters.sharpenNonstellar) {
-         console.writeln("Starting BlurXterminator (nonstellar)!");
+         console.writeln("Starting BlurXTerminator (nonstellar)!");
+         
          var blurxObject = new BlurXTerminator;
          blurxObject.ai_file = blurxModel;
          blurxObject.correct_only = false;
@@ -194,7 +233,8 @@ function main() {
          blurxObject.nonstellar_psf_diameter = 0.00;
          blurxObject.auto_nonstellar_psf = true;
          blurxObject.sharpen_nonstellar = xtParameters.sharpenNonstellar;
-         if (!blurxObject.executeOn(view)) throw new Error("BlurXTerminator (object) step failed.");
+         
+         if (!blurxObject.executeOn(view)) throw new Error("BlurXTerminator (nonstellar) step failed.");
       }
 
       console.writeln("✅ Processing complete!");

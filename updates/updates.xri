@@ -6,7 +6,7 @@
      </p>
    </description>
    <platform os="all" arch="noarch" version="1.9.0:1.9.10">
-      <package fileName="wormremoval-2025-09-27.zip" sha1="7012692106d695e645429fa97ecb04ec08a4fd409" type="script" releaseDate="20250927">
+      <package fileName="wormremoval-2025-09-27.zip" sha1="012692106d695e645429fa97ecb04ec08a4fd409" type="script" releaseDate="20250927">
          <title>
             WormRemoval script 2025-09-27
          </title>

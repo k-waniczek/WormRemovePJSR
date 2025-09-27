@@ -5,8 +5,9 @@
  * Author: ARZ, Kamil Waniczek  |  Version: 1.6  |  Date: 2025-09-23
  */
 
-#feature-id WormRemove : Utilities > WormRemoval
+#feature-id WormRemoval : Utilities > WormRemoval
 #feature-info This script uses bxt and sxt in correct order to minimize the worms caused by nxt
+#feature-icon  @script_icons_dir/WormRemoval.svg
 
 #include <pjsr/Sizer.jsh>
 #include <pjsr/NumericControl.jsh>

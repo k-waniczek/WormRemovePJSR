@@ -6,16 +6,17 @@
      </p>
    </description>
    <platform os="all" arch="noarch" version="1.9.0:1.9.10">
-      <package fileName="wormremoval-2025-09-27-2.zip" sha1="2b89614712686423648b1f09864b5e32d89535fe" type="script" releaseDate="20250927">
+      <package fileName="wormremoval-2025-11-29.zip" sha1="5b98d8fdf0507b39fa7afc6495013b4615e5f520" type="script" releaseDate="20251129">
          <title>
-            WormRemoval script 2025-09-27
+            WormRemoval script 2025-11-29
          </title>
          <description>
-            <h3>WormRemoval: Release 1.7.1</h3>
+            <h3>WormRemoval: Release 1.7.2</h3>
             <ul>
-               <li>Added script icon</li>
+               <li>Signed all files with Pixinsight Code Sign Utility</li>
             </ul>
          </description>
       </package>
    </platform>
 </xri>
+<Signature developerId="Kamil Waniczek" timestamp="2025-11-29T11:21:02.937Z" encoding="Base64">t/JdbRAIo3M+dkeRTpZ13TgPa4w5YMAsx6OFcKKOd/FhK0XOjlLwxMipAQObqsVEVrHVOyTjpSY15oDZzVqpDA==</Signature>

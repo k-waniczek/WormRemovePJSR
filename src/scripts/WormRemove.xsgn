@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+PixInsight XML Code Signature Format - XSGN version 1.0
+Created with PixInsight software - https://pixinsight.com/
+-->
+<xsgn version="1.0" xmlns="http://www.pixinsight.com/xsgn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.pixinsight.com/xsgn http://pixinsight.com/xsgn/xsgn-1.0.xsd">
+   <CreationTime>2025-11-29T11:20:09.396Z</CreationTime>
+   <Signature version="1.0" scriptId="WormRemoval" developerId="Kamil Waniczek">
+      <Timestamp>2025-11-29T11:20:09.396Z</Timestamp>
+      <CodeSignature encoding="Base64">3U9UXOsD8N+waoKaqDYlWGyNiPCf/f+lTgpYwvlxbwmdYQ4mdEMT5cukKFnVtjrLmJPSbqyOA2Mk0ijQk14ZBA==</CodeSignature>
+   </Signature>
+</xsgn>

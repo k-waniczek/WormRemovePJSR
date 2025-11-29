@@ -1,3 +1,5 @@
+#feature-id WormRemoval : Utilities > WormRemoval
+
 function WormRemoveDialog() {
     this.__base__ = Dialog;
     this.__base__();

@@ -6,7 +6,7 @@
      </p>
    </description>
    <platform os="all" arch="all" version="1.9.0:1.9.99">
-      <package fileName="wormremoval-2026-05-17.zip" sha1="579C80513DF185B4B082A55E0C140F40AB488330" type="script" releaseDate="20260517">
+      <package fileName="wormremoval-2026-05-17.zip" sha1="579c80513df185b4b082a55e0c140f40ab488330" type="script" releaseDate="20260517">
          <title>
             WormRemoval script 2026-05-17
          </title>
@@ -19,4 +19,4 @@
       </package>
    </platform>
 </xri>
-<Signature developerId="Kamil Waniczek" timestamp="2026-05-17T14:17:21.976Z" encoding="Base64">hVM92MdAbYwqAnMIXuuMXLzcMEQzD3Awa3cDND5FSaVOoNjMkgqEubhDvYq1n/cxMDGPnJNan3NCF3Qh5+ZbBg==</Signature>
+<Signature developerId="Kamil Waniczek" timestamp="2026-05-17T18:12:22.578Z" encoding="Base64">ILSRW498/R4+4XFCuF8mzoGVCoYc8yGhtjHUo5w4fkWB/OkP/RADcOb79s57prODfODWP8/NJvvHK5lmLnGrAw==</Signature>

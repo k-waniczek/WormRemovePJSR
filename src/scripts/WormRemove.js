@@ -5,16 +5,18 @@
  * Author: ARZ, Kamil Waniczek  |  Version: 1.7.2  |  Date: 2025-11-29
  */
 
+#engine v8
+
 #feature-id WormRemoval : Utilities > WormRemoval
 #feature-info This script uses bxt and sxt in correct order to minimize the worms caused by nxt
 #feature-icon  @script_icons_dir/WormRemoval.svg
 
-#include <pjsr/Sizer.jsh>
-#include <pjsr/NumericControl.jsh>
-
 #define KEYPREFIX "WormRemoval"
 
 #include "DialogWormRemove.js"
+
+CoreApplication.ensureMinimumVersion(1, 9, 4);
+
 // ---------- Utilities ----------
 
 /** Return current user's home directory (PJSR API). */
@@ -97,31 +99,31 @@ function resolveModel(baseNames) {
 }
 
 function saveParameters() {
-    Parameters.clear();
-    Parameters.set("sharpenStars", xtParameters.sharpenStars);
-    Parameters.set("sharpenNonstellar", xtParameters.sharpenNonstellar);
-    Parameters.set("adjustHalos", xtParameters.adjustHalos);
-    Parameters.set("overlap", xtParameters.overlap);
-    Parameters.set("correct", xtParameters.correct);
-    Parameters.set("generateStarMask", xtParameters.generateStarMask);
-    Parameters.set("view", xtParameters.view);
+   Parameters.clear();
+   Parameters.set("sharpenStars", xtParameters.sharpenStars);
+   Parameters.set("sharpenNonstellar", xtParameters.sharpenNonstellar);
+   Parameters.set("adjustHalos", xtParameters.adjustHalos);
+   Parameters.set("overlap", xtParameters.overlap);
+   Parameters.set("correct", xtParameters.correct);
+   Parameters.set("generateStarMask", xtParameters.generateStarMask);
+   Parameters.set("view", xtParameters.view);
 }
 
 function loadParameters() {
-    if (Parameters.has("sharpenStars"))
-        xtParameters.sharpenStars = Parameters.getReal("sharpenStars");
-    if (Parameters.has("sharpenNonstellar"))
-        xtParameters.sharpenNonstellar = Parameters.getReal("sharpenNonstellar");
-    if (Parameters.has("adjustHalos"))
-        xtParameters.adjustHalos = Parameters.getReal("adjustHalos");
-    if (Parameters.has("overlap"))
-        xtParameters.overlap = Parameters.getReal("overlap");
-    if (Parameters.has("correct"))
-        xtParameters.correct = Parameters.getBoolean("correct");
-    if (Parameters.has("generateStarMask"))
-        xtParameters.generateStarMask = Parameters.getBoolean("generateStarMask");
-    if (Parameters.has("view"))
-        xtParameters.view = View.viewById(Parameters.getString("view"));
+   if (Parameters.has("sharpenStars"))
+      xtParameters.sharpenStars = Parameters.getReal("sharpenStars");
+   if (Parameters.has("sharpenNonstellar"))
+      xtParameters.sharpenNonstellar = Parameters.getReal("sharpenNonstellar");
+   if (Parameters.has("adjustHalos"))
+      xtParameters.adjustHalos = Parameters.getReal("adjustHalos");
+   if (Parameters.has("overlap"))
+      xtParameters.overlap = Parameters.getReal("overlap");
+   if (Parameters.has("correct"))
+      xtParameters.correct = Parameters.getBoolean("correct");
+   if (Parameters.has("generateStarMask"))
+      xtParameters.generateStarMask = Parameters.getBoolean("generateStarMask");
+   if (Parameters.has("view"))
+      xtParameters.view = View.viewById(Parameters.getString("view"));
 }
 
 // ---------- Main pipeline ----------
